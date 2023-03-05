@@ -15,6 +15,6 @@ with_makevars(c(PKG_CFLAGS = "-std=c11"),
     install.packages('remotes', INSTALL_opts=c("--no-help", "--no-html")),
     assignment = "+=")
 
-with_makevars(c(PKG_CFLAGS = "-std=c11"),
-    remotes::install_github('MilesMcBain/deplearning'),
-    assignment = "+=")
+# with_makevars(c(PKG_CFLAGS = "-std=c11"),
+#     remotes::install_github('MilesMcBain/deplearning'),
+#     assignment = "+=")
