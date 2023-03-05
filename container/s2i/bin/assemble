@@ -1,0 +1,50 @@
+#!/bin/bash
+
+set -e
+
+usage(){
+	if [[ "$1" == "-h" ]]; then
+		exec /usr/libexec/s2i/usage
+	fi
+}
+
+restore_artifacts(){
+  # Restore artifacts from the previous build (if they exist).
+  # We set them here just for show, but you will need to set this up with your logic
+  # according to the application directory that you chose.
+
+  if [ "$(ls /tmp/artifacts/ 2>/dev/null)" ]; then
+    echo "---> Restoring build artifacts..."
+    mv /tmp/artifacts/* /opt/app-root/etc
+  fi
+}
+
+setup_r_packages(){
+  R_SETUP_FILE=/tmp/src/setup.R
+  echo "Checking for ${R_SETUP_FILE}"
+  if [ -e "${R_SETUP_FILE}" ]; then
+    echo "Attempting to run 'R --no-save < '"${R_SETUP_FILE}"''"
+    R --no-save < "${R_SETUP_FILE}"
+  fi
+}
+
+setup_r_profile(){
+  R_PROFILE_FILE=/opt/app-root/src/.Rprofile
+  if [ ! -e "${R_PROFILE_FILE}" ]; then
+    echo "Creating ${R_PROFILE_FILE}"
+    echo 'options(repos = c(CRAN = "http://cran.rstudio.com"))' >> /opt/app-root/src/.Rprofile
+    R -s -e "menu = function(choices, graphics = FALSE, title = NULL) { return(1) };  library(deplearning); depl_check()"
+  fi
+}
+
+setup_src_files(){
+  # install src files
+  if [ "$(ls -A /tmp/src)" ]; then
+    mv /tmp/src/* /opt/app-root/src/
+  fi
+}
+
+# restore_artifacts
+setup_src_files
+setup_r_profile
+setup_r_packages
