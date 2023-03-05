@@ -15,6 +15,7 @@ COPY fix-permissions /usr/local/bin/
 
 # Setup R paths
 RUN mkdir -p /opt/app-root/R && \
+    mkdir -p /opt/app-root/src && \
     fix-permissions /opt/app-root
 
 COPY setup.R /opt/app-root
