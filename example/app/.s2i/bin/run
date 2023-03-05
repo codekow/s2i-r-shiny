@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+#pwd
+#find .
+
+# kludge - could change entrypoint
+exec R -s -e 'library("shiny"); runApp(host="0.0.0.0", port=8080)'

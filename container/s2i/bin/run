@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# print usage
+usage(){
+	/usr/libexec/s2i/usage
+}
+
+run_sleep(){
+	echo "Ponder the universe with infinate sleep..."
+	sleep infinity
+}
+
+# run normal s2i scripts
+run_app(){
+	exec R -s -e 'library("shiny"); runApp(host="0.0.0.0", port=8080)'
+}
+
+failure(){
+	usage
+	run_sleep
+}
+
+run_app || failure

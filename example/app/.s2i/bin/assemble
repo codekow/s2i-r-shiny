@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+
+if [[ "$1" == "-h" ]]; then
+	exec /usr/libexec/s2i/usage
+fi
+
+# Restore artifacts from the previous build (if they exist).
+# We set them here just for show, but you will need to set this up with your logic
+# according to the application directory that you chose.
+
+
+# if [ "$(ls /tmp/artifacts/ 2>/dev/null)" ]; then
+#   echo "---> Restoring build artifacts..."
+#   mv /tmp/artifacts/* /opt/app-root/etc
+# fi
+
+# Install custom code dependencies here
+
+echo "Resume default assemble"
+/usr/libexec/s2i/assemble
