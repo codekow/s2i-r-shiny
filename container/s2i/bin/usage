@@ -1,0 +1,25 @@
+#!/bin/sh
+
+which lsb_release >/dev/null 2>&1 && lsb_release -ircd
+
+cat /etc/*-release || echo "non RHEL OS"
+
+cat <<EOF
+
+This is a R shiny image
+
+There are multiple ways to use this image, see documentation at:
+https://github.com/codekow/s2i-r-shiny
+
+The default directory for installing your app is:
+'/opt/app-root/src'
+
+WORKDIR and HOME is set to this directory as well.
+
+To learn more about S2I visit:
+- https://github.com/openshift/source-to-image
+- https://github.com/sclorg/container-common-scripts
+
+EOF
+# print R version
+R --version
