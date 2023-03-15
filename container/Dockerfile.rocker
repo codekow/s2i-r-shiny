@@ -1,4 +1,4 @@
-FROM docker.io/rocker/r-ver:4
+FROM docker.io/rocker/r-ver:4.2.2
 
 LABEL io.k8s.description="R" \
     io.k8s.display-name="R" \
@@ -23,9 +23,9 @@ RUN mkdir -p /opt/app-root/R && \
 COPY setup.R /opt/app-root
 ENV R_LIBS_USER=/opt/app-root/R
 
+COPY Rprofile.site "$R_HOME/Rprofile.site"
+# RUN echo "local(options(shiny.port = 8080, shiny.host = '0.0.0.0'))" > "$R_HOME/Rprofile.site"
 
-#COPY Rprofile.site /usr/lib64/R/etc
-RUN echo "local(options(shiny.port = 8080, shiny.host = '0.0.0.0'))" > "${R_HOME}/Rprofile.site"
 ENV _R_SHLIB_STRIP_=true
 
 RUN R --no-save < /opt/app-root/setup.R && \

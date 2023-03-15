@@ -1,7 +1,9 @@
-local({
-  r <- getOption("repos")
-  r["CRAN"] <- "https://cran.microsoft.com/"
-  options(repos = r)
-})
-
-local(options(shiny.port = 8080, shiny.host = '0.0.0.0'))
+options(
+  repos = list(CRAN = "https://cran.rstudio.com"),
+  download.file.method = 'libcurl',
+  HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"])),
+  shiny.port = 8080,
+  shiny.host = '0.0.0.0',
+  shiny.autoreload = TRUE,
+  shiny.autoreload.interval = 2000 # in milliseconds
+)

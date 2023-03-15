@@ -2,22 +2,38 @@
 # INSTALL_opts=c("--no-help", "--no-html")
 # install.packages('fs', repos = 'https://cran.microsoft.com/')
 
-install.packages('fs')
-install.packages('withr', INSTALL_opts=c("--no-help", "--no-html"))
+# https://cran.r-project.org/web/packages/available_packages_by_name.html
 
-library(withr)
+options(
+    # repos = list(CRAN = "https://cran.rstudio.com"),
+    INSTALL_opts=c("--no-docs", "--no-help", "--no-html")
+)
 
-with_makevars(c(PKG_CFLAGS = "-std=c11"),
-    install.packages('shiny', INSTALL_opts=c("--no-help", "--no-html")),
-    assignment = "+=")
+# TODO: can not set global install opts
 
-with_makevars(c(PKG_CFLAGS = "-std=c11"),
-    install.packages('rmarkdown', INSTALL_opts=c("--no-help", "--no-html")),
-    assignment = "+=")
+# setup remotes so you can pull in other libs
+install.packages('remotes', INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
 
-with_makevars(c(PKG_CFLAGS = "-std=c11"),
-    install.packages('remotes', INSTALL_opts=c("--no-help", "--no-html")),
-    assignment = "+=")
+# add some common packages
+install.packages(c('withr', 'fs'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
+
+# add shiny packages
+install.packages(c('rmarkdown', 'shiny'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
+
+
+# library(withr)
+
+# with_makevars(c(PKG_CFLAGS = "-std=c11"),
+#     install.packages('shiny', INSTALL_opts=c("--no-help", "--no-html")),
+#     assignment = "+=")
+
+# with_makevars(c(PKG_CFLAGS = "-std=c11"),
+#     install.packages('rmarkdown', INSTALL_opts=c("--no-help", "--no-html")),
+#     assignment = "+=")
+
+# with_makevars(c(PKG_CFLAGS = "-std=c11"),
+#     install.packages('remotes', INSTALL_opts=c("--no-help", "--no-html")),
+#     assignment = "+=")
 
 # with_makevars(c(PKG_CFLAGS = "-std=c11"),
 #     remotes::install_github('MilesMcBain/deplearning'),
