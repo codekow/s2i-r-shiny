@@ -39,8 +39,12 @@ setup_r_profile(){
   if [ ! -e "${R_PROFILE_FILE}" ]; then
     echo "Creating ${R_PROFILE_FILE}"
     echo 'options(repos = c(CRAN = "http://cran.rstudio.com"))' >> /opt/app-root/src/.Rprofile
-    R -s -e "menu = function(choices, graphics = FALSE, title = NULL) { return(1) }"
   fi
+}
+
+check_r_dependencies(){
+  R -s -e "library(deplearning); depl_check()"
+  R -s -e "menu = function(choices, graphics = FALSE, title = NULL) { return(1) };  library(deplearning); depl_check()"
 }
 
 # restore_artifacts
@@ -48,3 +52,4 @@ setup_r_profile(){
 usage
 setup_src_files
 setup_r_packages
+check_r_dependencies

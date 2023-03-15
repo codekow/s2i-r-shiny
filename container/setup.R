@@ -5,7 +5,8 @@
 # https://cran.r-project.org/web/packages/available_packages_by_name.html
 
 options(
-    # repos = list(CRAN = "https://cran.rstudio.com"),
+    repos = list(CRAN = "https://packagemanager.posit.co/cran/__linux__/centos8/latest"),
+    download.file.method = 'libcurl',
     INSTALL_opts=c("--no-docs", "--no-help", "--no-html")
 )
 
@@ -14,14 +15,14 @@ options(
 # setup remotes so you can pull in other libs
 install.packages('remotes', INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
 
-remotes::install_github('MilesMcBain/deplearning', INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
-
 # add some common packages
-install.packages(c('withr', 'fs', 'pak'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
+install.packages(c('withr', 'fs', 'pak', 'pkgdepends'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
 
 # add shiny packages
 install.packages(c('rmarkdown', 'shiny'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
 
+# add remote for dependencies
+remotes::install_github('MilesMcBain/deplearning', INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
 
 # library(withr)
 

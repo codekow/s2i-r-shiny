@@ -1,6 +1,6 @@
 options(
-  repos = list(CRAN = "https://cran.rstudio.com"),
-  download.file.method = 'libcurl',
+  # repos = list(CRAN = "https://cran.rstudio.com"),
+  # download.file.method = 'libcurl',
   HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"])),
   shiny.port = 8080,
   shiny.host = '0.0.0.0',
