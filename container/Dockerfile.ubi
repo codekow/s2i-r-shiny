@@ -1,0 +1,66 @@
+# FROM registry.access.redhat.com/ubi7/ubi:7.9
+# FROM registry.access.redhat.com/ubi9/ubi
+FROM registry.access.redhat.com/ubi8/ubi
+
+
+LABEL io.k8s.description="R" \
+    io.k8s.display-name="R" \
+    io.openshift.tags="builder,r" \
+    io.openshift.expose-services="8080:http" \
+    # this label tells s2i where to find its mandatory scripts
+    # (run, assemble, save-artifacts)
+    io.openshift.s2i.scripts-url="image:///usr/libexec/s2i"
+
+USER root
+COPY fix-permissions install2.r /usr/local/bin/
+
+ENV STI_SCRIPTS_PATH=/usr/libexec/s2i
+
+WORKDIR /tmp
+
+# Install R dependencies
+ENV R_VERSION=4.2.2
+ENV R_SCRIPT_HASH=37df3cc65a3d70b7ed63cd03bff9236d19556fbf0f3aaed63b85ea5b30719135
+
+RUN yum upgrade -y && \
+    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
+# Install R w/ script
+RUN curl -LO https://rstd.io/r-install && \
+    [ "$R_SCRIPT_HASH  -" = "$(sha256sum < r-install)" ] && \
+    echo "R_SCRIPT_HASH: EXPECTED" && \
+    chmod +x r-install && \
+    ./r-install -i $R_VERSION -y && \
+    rm R-*.rpm r-install && \
+    yum -y clean all && \
+    rm -rf /var/cache
+
+# Setup s2i R paths
+ENV R_HOME=/opt/R/$R_VERSION
+ENV R_LIBS_USER=/opt/app-root/R
+
+ENV PATH=$PATH:$R_HOME/bin
+
+RUN mkdir -p /opt/app-root/R && \
+    mkdir -p /opt/app-root/src && \
+    fix-permissions /opt/app-root
+
+COPY setup.R /opt/app-root
+
+COPY Rprofile.site $R_HOME/Rprofile.site
+# RUN echo "local(options(shiny.port = 8080, shiny.host = '0.0.0.0'))" > "${R_HOME}/Rprofile.site"
+ENV _R_SHLIB_STRIP_=true
+
+RUN R --no-save < /opt/app-root/setup.R && \
+    fix-permissions /opt/app-root
+
+COPY s2i/bin /usr/libexec/s2i
+
+WORKDIR /opt/app-root/src
+
+USER 1001
+
+# Set the default port for applications built using this image
+EXPOSE 8080
+
+CMD ["/usr/libexec/s2i/run"]

@@ -3,3 +3,5 @@ local({
   r["CRAN"] <- "https://cran.microsoft.com/"
   options(repos = r)
 })
+
+local(options(shiny.port = 8080, shiny.host = '0.0.0.0'))
