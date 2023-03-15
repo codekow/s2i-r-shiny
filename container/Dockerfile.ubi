@@ -23,7 +23,7 @@ ENV R_VERSION=4.2.2
 ENV R_SCRIPT_HASH=37df3cc65a3d70b7ed63cd03bff9236d19556fbf0f3aaed63b85ea5b30719135
 
 RUN yum upgrade -y && \
-    yum install -y diffutils less && \
+    yum install -y diffutils less file && \
     yum install -y make gcc gcc-c++ libcurl-devel libxml2-devel openssl-devel && \
     yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 

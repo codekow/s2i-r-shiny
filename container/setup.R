@@ -14,8 +14,10 @@ options(
 # setup remotes so you can pull in other libs
 install.packages('remotes', INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
 
+remotes::install_github('MilesMcBain/deplearning', INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
+
 # add some common packages
-install.packages(c('withr', 'fs'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
+install.packages(c('withr', 'fs', 'pak'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
 
 # add shiny packages
 install.packages(c('rmarkdown', 'shiny'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
