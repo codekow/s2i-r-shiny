@@ -32,9 +32,11 @@ File List:
 oc new-app s2i-r-shiny~https://github.com/codekow/s2i-r-shiny.git \
     --context-dir=example/app \
     --name=shiny-test \
+    --labels examples=shiny \
     --strategy=source
 
 oc expose svc/shiny-test \
+  --labels examples=shiny \
   --port 8080 \
   --overrides='{"spec":{"tls":{"termination":"edge"}}}'
 ```
@@ -44,27 +46,38 @@ oc expose svc/shiny-test \
 oc new-app s2i-r-shiny~https://github.com/rstudio/shiny-examples \
     --context-dir=001-hello \
     --name=shiny-hello \
+    --labels examples=shiny \
     --strategy=source
 
 oc expose svc/shiny-hello \
+  --labels examples=shiny \
   --port 8080 \
   --overrides='{"spec":{"tls":{"termination":"edge"}}}'
+```
+
+## Build all examples
+
+```
+scripts/examples.sh
 ```
 
 ## Clean Up
 
 ```sh
-oc delete all -l app=shiny-hello
-oc delete all -l app=shiny-test
+oc delete all -l shiny=example
 ```
 
 ## Links
 
-- [R Packages Info](https://cran.rstudio.com/bin/linux/redhat)
-- [s2i for R shiny](https://examples.openshift.pub/build/s2i-r-shiny/)
 - [R Docker - Rocker 2](https://github.com/rocker-org/rocker-versioned2)
+- [R Shiny - examples](https://github.com/rstudio/shiny-examples)
+
+### Misc links
+
+- [R Packages Info](https://cran.rstudio.com/bin/linux/redhat)
+- [s2i for R Shiny - example](https://examples.openshift.pub/build/s2i-r-shiny)
+- https://cran.r-project.org/web/packages/available_packages_by_name.html#available-packages-D
 - https://github.com/DFEAGILEDEVOPS/s2i-rshiny
 - https://stackoverflow.com/questions/65110578/run-shiny-applications-on-openshift-online-using-custom-images
 - https://www.r-bloggers.com/2011/11/permanently-setting-the-cran-repository/
-- https://github.com/rstudio/shiny-examples/
 - https://github.com/analythium/covidapp-shiny

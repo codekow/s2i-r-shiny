@@ -163,6 +163,7 @@ build_s2i_image(){
   oc new-build \
   https://github.com/codekow/s2i-r-shiny.git \
   --name s2i-r-shiny \
+  --labels examples=shiny \
   --context-dir container
 
   sleep 3
@@ -175,9 +176,11 @@ deploy_test(){
   oc new-app s2i-r-shiny~https://github.com/codekow/s2i-r-shiny.git \
       --context-dir=example/app \
       --name=shiny-test \
+      --labels examples=shiny \
       --strategy=source
 
   oc expose svc/shiny-test \
+    --labels examples=shiny \
     --port 8080 \
     --overrides='{"spec":{"tls":{"termination":"edge"}}}'
 }
