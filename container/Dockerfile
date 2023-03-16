@@ -1,1 +1,1 @@
-Dockerfile.rocker
+Dockerfile.ubi
