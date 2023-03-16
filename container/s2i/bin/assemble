@@ -56,7 +56,7 @@ check_r_dependencies(){
 }
 
 clean_tmp(){
-  rm -rf /tmp/*
+  rm -rf /tmp/R* /tmp/downloaded_packages
 }
 
 # restore_artifacts
