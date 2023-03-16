@@ -1,5 +1,9 @@
 # R Shiny (RShiny) s2i image
 
+[R](https://en.wikipedia.org/wiki/R_(programming_language)) is a programming language for statistical computing and graphics. Created by statisticians and is used among data miners, bioinformaticians and statisticians for data analysis and developing statistical software. Users have created packages to augment the functions of the R language.
+
+The official [R](https://en.wikipedia.org/wiki/R_(programming_language)) software environment is an open-source [free software](https://en.wikipedia.org/wiki/Free_software) environment within the GNU package, available under the [GNU General Public License](https://en.wikipedia.org/wiki/GNU_General_Public_License). It is written primarily in C, Fortran, and R itself.
+
 [Source-to-Image s2i](https://docs.openshift.com/container-platform/3.6/architecture/core_concepts/builds_and_image_streams.html#source-build) is a framework that takes application source code as an input and produces a new image that runs the assembled application as output. Openshift builds can be triggered if either the code changes or the s2i builder image is updated.
 
 ## OpenShift Examples
