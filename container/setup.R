@@ -1,7 +1,4 @@
 # https://github.com/r-lib/devtools/issues/2084
-# INSTALL_opts=c("--no-help", "--no-html")
-# install.packages('fs', repos = 'https://cran.microsoft.com/')
-
 # https://cran.r-project.org/web/packages/available_packages_by_name.html
 
 options(

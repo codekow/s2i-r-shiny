@@ -2,28 +2,24 @@
 set -e
 
 usage(){
-    ${STI_SCRIPTS_PATH}/usage
+  "${STI_SCRIPTS_PATH}/usage"
 }
 
 # fallback with sleep to debug your code
 # oc rsh / podman exec -it .. /bin/sh
 run_sleep(){
-    echo "Usage: insert here"
-    echo ""
-    echo "This container does nothing by default."
-    echo "Ponder the universe with infinate sleep..."
-
-    sleep infinity
+  echo "Ponder the universe with infinate sleep..."
+  sleep infinity
 }
 
 # run normal s2i scripts
 run_s2i_default(){
-    ${STI_SCRIPTS_PATH}/run
+  ${STI_SCRIPTS_PATH}/run
 }
 
 run_s2i_override(){
-    # kludge - could change entrypoint
-    exec R -s -e 'library("shiny"); runApp(host="0.0.0.0", port=8080)'
+  # kludge - could change entrypoint
+  exec R -s -e 'library("shiny"); runApp(host="0.0.0.0", port=8080)'
 }
 
 usage

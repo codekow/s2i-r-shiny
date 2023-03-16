@@ -1,9 +1,11 @@
 #!/bin/bash
 set -e
 
-if [[ "$1" == "-h" ]]; then
-	exec /usr/libexec/s2i/usage
-fi
+usage(){
+	if [ "$1" == "-h" ]; then
+		exec "${STI_SCRIPTS_PATH}/usage"
+	fi
+}
 
 # Restore artifacts from the previous build (if they exist).
 # We set them here just for show, but you will need to set this up with your logic
