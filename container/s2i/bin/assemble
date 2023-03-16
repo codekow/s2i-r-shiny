@@ -44,7 +44,7 @@ setup_r_profile(){
 
 check_r_dependencies(){
   echo "Checking dependencies..."
-  PKGS=$(sed -n 's/library(\(.*\)).*/\1/pg' *.R | sort -u)
+  PKGS=$(sed -n 's/library(\(.*\)).*/\1/pg; s/^.* \([^ ]*\)::.*/\1/pg' *.R | sort -u)
 
   echo "PKGS: ${PKGS}"
 
