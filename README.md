@@ -23,12 +23,13 @@ You can look in [example/app](example/app) of this repo to create an example app
 File List:
 
 - `app.R` or `server.R` - This is your primary application (required)
-- `setup.R` - Can be used to run `R` to setup your application (optional: example installs `tm`)
+- `setup.R` - Can be used to run `R` to setup your application (optional: example installs `rmarkdown`)
 - `.s2i/assemble` - Standard s2i assemble override (optional)
 - `.s2i/run` -  Standard s2i run override (optional)
 
+### Build w/ `setup.R`
+
 ```
-# example
 oc new-app s2i-r-shiny~https://github.com/codekow/s2i-r-shiny.git \
     --context-dir=example/app \
     --name=shiny-test \
@@ -41,8 +42,9 @@ oc expose svc/shiny-test \
   --overrides='{"spec":{"tls":{"termination":"edge"}}}'
 ```
 
+### Build from GitHub
+
 ```
-# github
 oc new-app s2i-r-shiny~https://github.com/rstudio/shiny-examples \
     --context-dir=001-hello \
     --name=shiny-hello \
@@ -63,7 +65,7 @@ scripts/examples.sh
 
 ## Clean Up
 
-```sh
+```
 oc delete all -l shiny=example
 ```
 

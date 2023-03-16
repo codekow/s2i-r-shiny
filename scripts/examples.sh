@@ -144,7 +144,6 @@ LIST_BROKEN_FUTURE="123-async-renderprint
 126-async-ticks
 127-async-flush"
 
-
 LIST_BROKEN_CAIRO="093-plot-interaction-basic
 095-plot-interaction-advanced
 099-plot-interaction-article-4
@@ -154,7 +153,6 @@ LIST_BROKEN_CAIRO="093-plot-interaction-basic
 104-plot-interaction-select
 105-plot-interaction-zoom
 106-plot-interaction-exclude"
-
 
 # LIST="079-widget-submit"
 LIST=$LIST_WORKING
