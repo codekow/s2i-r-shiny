@@ -58,9 +58,14 @@ check_r_dependencies(){
   done
 }
 
+clean_tmp(){
+  rm -rf /tmp/*
+}
+
 # restore_artifacts
 # setup_r_profile
 usage
 setup_src_files
 setup_r_file
 check_r_dependencies
+clean_tmp
