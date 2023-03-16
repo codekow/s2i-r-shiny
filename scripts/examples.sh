@@ -2,8 +2,8 @@
 
 GIT_REPO=https://github.com/rstudio/shiny-examples
 
-# list of examples from 
-LIST="001-hello
+# list of examples from github
+LIST_WORKING="001-hello
 002-text
 003-reactivity
 004-mpg
@@ -29,7 +29,6 @@ LIST="001-hello
 023-optgroup-server
 024-optgroup-selectize
 025-loop-ui
-026-shiny-inline
 027-absolutely-positioned-panels
 028-actionbutton-demo
 030-basic-datatable
@@ -79,29 +78,17 @@ LIST="001-hello
 083-front-page
 084-single-file
 085-progress
-086-bus-dashboard
-087-crandash
 088-action-pattern1
 089-action-pattern2
 090-action-pattern3
 091-action-pattern4
 092-action-pattern5
-093-plot-interaction-basic
 094-image-interaction-basic
-095-plot-interaction-advanced
 096-plot-interaction-article-1
 097-plot-interaction-article-2
 098-plot-interaction-article-3
-099-plot-interaction-article-4
 100-plot-interaction-article-5
-101-plot-interaction-article-6
-102-plot-interaction-article-7
-103-plot-interaction-article-8
-104-plot-interaction-select
-105-plot-interaction-zoom
-106-plot-interaction-exclude
 107-events
-108-module-output
 109-render-table
 110-error-sanitization
 111-insert-ui
@@ -111,16 +98,10 @@ LIST="001-hello
 115-bookmarking-updatequerystring
 116-notifications
 117-shinythemes
-118-highcharter-births
 119-namespaced-conditionalpanel-demo
 120-goog-index
 121-async-timer
 122-async-outputs
-123-async-renderprint
-124-async-download
-125-async-req
-126-async-ticks
-127-async-flush
 128-plot-dim-error
 129-async-perf
 130-output-null
@@ -137,39 +118,87 @@ LIST="001-hello
 141-radiant
 142-reactive-timer
 143-async-plot-caching
-144-colors
 145-dt-replacedata
 146-ames-explorer
-147-websocket
 148-addresourcepath-deleted
-149-onRender
-150-networkD3-sankey
 151-reactr-input
 152-set-reactivevalue
 153-connection-header
 154-index-html-server-r
-155-index-html-app-r
+155-index-html-app-r"
+
+LIST_BROKEN="026-shiny-inline
+086-bus-dashboard
+087-crandash
+108-module-output
+118-highcharter-births
+144-colors
+147-websocket
+149-onRender
+150-networkD3-sankey
 156-subapps"
 
-# LIST="079-widget-submit"
+LIST_BROKEN_FUTURE="123-async-renderprint
+124-async-download
+125-async-req
+126-async-ticks
+127-async-flush"
 
-deploy_all_examples(){
+
+LIST_BROKEN_CAIRO="093-plot-interaction-basic
+095-plot-interaction-advanced
+099-plot-interaction-article-4
+101-plot-interaction-article-6
+102-plot-interaction-article-7
+103-plot-interaction-article-8
+104-plot-interaction-select
+105-plot-interaction-zoom
+106-plot-interaction-exclude"
+
+
+# LIST="079-widget-submit"
+LIST=$LIST_WORKING
+
+build_s2i_image(){
+  oc new-build \
+  https://github.com/codekow/s2i-r-shiny.git \
+  --name s2i-r-shiny \
+  --context-dir container
+
+  oc logs bc/s2i-r-shiny \
+    --follow  
+}
+
+deploy_examples(){
   for i in $(echo $LIST) ; do
     CONTEXT_DIR=$i;
-    NAME=$(echo $i | cut -d'-' -f2-)
+    NAME=shiny-$(echo $i | cut -d'-' -f1-)
+
+    # echo "${NAME}" | egrep -q -v 'async' || continue
 
     echo "Deploying: ${NAME}"
 
     oc new-app s2i-r-shiny~"${GIT_REPO}" \
       --context-dir="${CONTEXT_DIR}" \
-      --name="shiny-${NAME}" \
+      --name="${NAME}" \
+      --labels examples=shiny \
       --strategy=source
+    
+    oc logs bc/"${NAME}" \
+    --follow  
 
     oc expose svc/"${NAME}" \
+      --labels examples=shiny \
       --port 8080 \
       --overrides='{"spec":{"tls":{"termination":"edge"}}}'
 
   done;
 }
 
-deploy_all_examples
+delete_examples(){
+  oc delete all \
+    -l examples=shiny
+}
+
+build_s2i_image
+deploy_examples
