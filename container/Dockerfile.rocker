@@ -9,7 +9,7 @@ LABEL io.k8s.description="R Source-to-Image (s2i)" \
     io.openshift.s2i.scripts-url="image:///usr/libexec/s2i"
 
 USER root
-COPY fix-permissions install2.r /usr/local/bin/
+COPY fix-permissions /usr/local/bin/
 
 ENV STI_SCRIPTS_PATH=/usr/libexec/s2i
 
