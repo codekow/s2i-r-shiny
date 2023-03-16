@@ -169,6 +169,17 @@ build_s2i_image(){
     --follow  
 }
 
+deploy_test(){
+  oc new-app s2i-r-shiny~https://github.com/codekow/s2i-r-shiny.git \
+      --context-dir=example/app \
+      --name=shiny-test \
+      --strategy=source
+
+  oc expose svc/shiny-test \
+    --port 8080 \
+    --overrides='{"spec":{"tls":{"termination":"edge"}}}'
+}
+
 deploy_examples(){
   for i in $(echo $LIST) ; do
     CONTEXT_DIR=$i;
@@ -201,4 +212,5 @@ delete_examples(){
 }
 
 build_s2i_image
+deploy_test
 deploy_examples
