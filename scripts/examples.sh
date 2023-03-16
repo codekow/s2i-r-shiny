@@ -165,6 +165,8 @@ build_s2i_image(){
   --name s2i-r-shiny \
   --context-dir container
 
+  sleep 3
+  
   oc logs bc/s2i-r-shiny \
     --follow  
 }

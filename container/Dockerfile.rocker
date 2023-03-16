@@ -35,6 +35,7 @@ COPY setup.R /opt/app-root
 
 RUN R --no-save < /opt/app-root/setup.R && \
     fix-permissions /opt/app-root && \
+    fix-permissions ${R_HOME}/library && \
     rm -rf /tmp/*
 
 COPY s2i/bin /usr/libexec/s2i
