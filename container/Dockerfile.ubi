@@ -27,7 +27,7 @@ RUN yum upgrade -y && \
     yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 
 # install R w/ script
-RUN curl -LO https://rstd.io/r-install && \
+RUN curl -sLO https://rstd.io/r-install && \
     [ "$R_SCRIPT_HASH  -" = "$(sha256sum < r-install)" ] && \
     echo "R_SCRIPT_HASH: EXPECTED" && \
     chmod +x r-install && \
