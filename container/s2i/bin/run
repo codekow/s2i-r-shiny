@@ -27,9 +27,9 @@ debug(){
 }
 
 failure(){
-	usage
 	debug
 	run_sleep
 }
 
+usage
 run_app || failure
