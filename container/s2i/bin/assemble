@@ -25,8 +25,8 @@ setup_src_files(){
   fi
 }
 
-setup_r_packages(){
-  R_SETUP_FILE=/tmp/src/setup.R
+setup_r_file(){
+  R_SETUP_FILE="${R_SETUP_FILE:-setup.R}"
   echo "Checking for ${R_SETUP_FILE}"
   if [ -e "${R_SETUP_FILE}" ]; then
     echo "Attempting to run 'R --no-save < '"${R_SETUP_FILE}"''"
@@ -43,13 +43,21 @@ setup_r_profile(){
 }
 
 check_r_dependencies(){
-  R -s -e "library(deplearning); depl_check()"
-  R -s -e "menu = function(choices, graphics = FALSE, title = NULL) { return(1) };  library(deplearning); depl_check()"
+  echo "Checking dependencies..."
+  PKGS=$(sed -n 's/library(\(.*\)).*/\1/pg' *.R | sort -u)
+
+  echo "PKGS: ${PKGS}"
+
+  for pkg in $(echo ${PKGS})
+  do
+    install2.r "${pkg}"
+  done
+
 }
 
 # restore_artifacts
 # setup_r_profile
 usage
 setup_src_files
-setup_r_packages
+setup_r_file
 check_r_dependencies

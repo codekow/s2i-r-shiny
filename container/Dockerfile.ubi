@@ -2,9 +2,8 @@
 # FROM registry.access.redhat.com/ubi9/ubi
 FROM registry.access.redhat.com/ubi8/ubi
 
-
-LABEL io.k8s.description="R" \
-    io.k8s.display-name="R" \
+LABEL io.k8s.description="R Source-to-Image (s2i)" \
+    io.k8s.display-name="R s2i" \
     io.openshift.tags="builder,r" \
     io.openshift.expose-services="8080:http" \
     # this label tells s2i where to find its mandatory scripts
@@ -18,7 +17,7 @@ ENV STI_SCRIPTS_PATH=/usr/libexec/s2i
 
 WORKDIR /tmp
 
-# Install R dependencies
+# install R dependencies
 ENV R_VERSION=4.2.2
 ENV R_SCRIPT_HASH=37df3cc65a3d70b7ed63cd03bff9236d19556fbf0f3aaed63b85ea5b30719135
 
@@ -27,7 +26,7 @@ RUN yum upgrade -y && \
     yum install -y make gcc gcc-c++ libcurl-devel libxml2-devel openssl-devel && \
     yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 
-# Install R w/ script
+# install R w/ script
 RUN curl -LO https://rstd.io/r-install && \
     [ "$R_SCRIPT_HASH  -" = "$(sha256sum < r-install)" ] && \
     echo "R_SCRIPT_HASH: EXPECTED" && \
@@ -37,7 +36,7 @@ RUN curl -LO https://rstd.io/r-install && \
     yum -y clean all && \
     rm -rf /var/cache
 
-# Setup s2i R paths
+# setup s2i R paths
 ENV R_HOME=/opt/R/$R_VERSION/lib/R
 ENV R_LIBS_USER=/opt/app-root/R
 ENV _R_SHLIB_STRIP_=true
@@ -48,16 +47,16 @@ RUN mkdir -p /opt/app-root/R && \
     mkdir -p /opt/app-root/src && \
     fix-permissions /opt/app-root
 
-COPY Rprofile.site $R_HOME/etc/Rprofile.site
+COPY Rprofile.site "$R_HOME/etc/Rprofile.site"
 
-COPY setup.R /opt/app-root
-
-# ENV CRAN="https://cran.rstudio.com"
-# RUN echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> "${R_HOME}/etc/Rprofile.site"
+ENV CRAN="https://packagemanager.posit.co/cran/__linux__/centos8/latest"
+RUN echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> "${R_HOME}/etc/Rprofile.site"
 
 WORKDIR /opt/app-root/src
 
 # run setup.R
+COPY setup.R /opt/app-root
+
 RUN R --no-save < /opt/app-root/setup.R && \
     fix-permissions /opt/app-root
 

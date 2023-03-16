@@ -5,24 +5,26 @@
 # https://cran.r-project.org/web/packages/available_packages_by_name.html
 
 options(
-    repos = list(CRAN = "https://packagemanager.posit.co/cran/__linux__/centos8/latest"),
-    download.file.method = 'libcurl',
+    # repos = list(CRAN = "https://packagemanager.posit.co/cran/__linux__/centos8/latest"),
+    # download.file.method = 'libcurl',
     INSTALL_opts=c("--no-docs", "--no-help", "--no-html")
 )
 
 # TODO: can not set global install opts
 
-# setup remotes so you can pull in other libs
-install.packages('remotes', INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
-
 # add some common packages
-install.packages(c('withr', 'fs', 'pak', 'pkgdepends'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
+install.packages(c('fs', 'remotes', 'pkgdepends'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
 
 # add shiny packages
-install.packages(c('rmarkdown', 'shiny'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
+install.packages(c('markdown', 'rmarkdown', 'shiny'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
+
+# add additional packages for examples
+install.packages(c('tm', 'png', 'future'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
 
 # add remote for dependencies
-remotes::install_github('MilesMcBain/deplearning', INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
+# install.packages('remotes', INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
+# install.packages('withr', INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
+# remotes::install_github('MilesMcBain/deplearning', INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
 
 # library(withr)
 

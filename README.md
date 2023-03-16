@@ -11,6 +11,9 @@ oc new-build \
   https://github.com/codekow/s2i-r-shiny.git \
   --name s2i-r-shiny \
   --context-dir container
+
+oc logs bc/s2i-r-shiny \
+  --follow  
 ```
 
 ### Build New App
@@ -55,13 +58,13 @@ oc delete all -l app=shiny-hello
 oc delete all -l app=shiny-test
 ```
 
-# Links
+## Links
 
 - [R Packages Info](https://cran.rstudio.com/bin/linux/redhat)
 - [s2i for R shiny](https://examples.openshift.pub/build/s2i-r-shiny/)
+- [R Docker - Rocker 2](https://github.com/rocker-org/rocker-versioned2)
 - https://github.com/DFEAGILEDEVOPS/s2i-rshiny
 - https://stackoverflow.com/questions/65110578/run-shiny-applications-on-openshift-online-using-custom-images
 - https://www.r-bloggers.com/2011/11/permanently-setting-the-cran-repository/
 - https://github.com/rstudio/shiny-examples/
 - https://github.com/analythium/covidapp-shiny
-- https://github.com/rocker-org/rocker-versioned2

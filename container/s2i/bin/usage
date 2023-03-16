@@ -1,9 +1,5 @@
 #!/bin/sh
 
-which lsb_release >/dev/null 2>&1 && lsb_release -ircd
-
-cat /etc/*-release || echo "non RHEL OS"
-
 cat <<EOF
 
 This is a R image
@@ -21,6 +17,3 @@ To learn more about S2I visit:
 - https://github.com/sclorg/container-common-scripts
 
 EOF
-# print R version
-R --version
-R -q -e "sessionInfo()"

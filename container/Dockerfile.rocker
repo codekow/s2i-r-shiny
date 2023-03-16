@@ -1,7 +1,7 @@
 FROM docker.io/rocker/r-ver:4.2.2
 
-LABEL io.k8s.description="R" \
-    io.k8s.display-name="R" \
+LABEL io.k8s.description="R Source-to-Image (s2i)" \
+    io.k8s.display-name="R s2i" \
     io.openshift.tags="builder,r" \
     io.openshift.expose-services="8080:http" \
     # this label tells s2i where to find its mandatory scripts
@@ -13,27 +13,30 @@ COPY fix-permissions install2.r /usr/local/bin/
 
 ENV STI_SCRIPTS_PATH=/usr/libexec/s2i
 
-# Install R dependencies
+# install R dependencies
 
-# Setup R paths
+# setup R paths
+ENV R_LIBS_USER=/opt/app-root/R
+ENV _R_SHLIB_STRIP_=true
+
 RUN mkdir -p /opt/app-root/R && \
     mkdir -p /opt/app-root/src && \
     fix-permissions /opt/app-root
 
+COPY Rprofile.site "$R_HOME/etc/Rprofile.site"
+
+ENV CRAN="https://packagemanager.posit.co/cran/__linux__/jammy/2023-03-14"
+RUN echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> "${R_HOME}/etc/Rprofile.site"
+
+WORKDIR /opt/app-root/src
+
+# run setup.R
 COPY setup.R /opt/app-root
-ENV R_LIBS_USER=/opt/app-root/R
-
-COPY Rprofile.site "$R_HOME/Rprofile.site"
-# RUN echo "local(options(shiny.port = 8080, shiny.host = '0.0.0.0'))" > "$R_HOME/Rprofile.site"
-
-ENV _R_SHLIB_STRIP_=true
 
 RUN R --no-save < /opt/app-root/setup.R && \
     fix-permissions /opt/app-root
 
 COPY s2i/bin /usr/libexec/s2i
-
-WORKDIR /opt/app-root/src
 
 USER 1001
 

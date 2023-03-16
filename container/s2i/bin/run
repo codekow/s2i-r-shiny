@@ -16,8 +16,19 @@ run_app(){
 	R -s -e 'library("shiny"); runApp(host="0.0.0.0", port=8080)'
 }
 
+debug(){
+	which lsb_release >/dev/null 2>&1 && lsb_release -ircd
+	cat /etc/*-release || echo "non RHEL OS"
+
+	# print R info
+	R --version
+	R -q -e "sessionInfo()"
+	R -q -e "installed.packages()"
+}
+
 failure(){
 	usage
+	debug
 	run_sleep
 }
 
