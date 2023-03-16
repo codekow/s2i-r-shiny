@@ -51,7 +51,7 @@ check_r_dependencies(){
 
   for pkg in $(echo ${PKGS})
   do
-    install2.r "${pkg}"
+    echo 'install.packages('"${pkg}"', INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))' | R --no-save
   done
 }
 

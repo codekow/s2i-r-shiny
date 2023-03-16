@@ -13,7 +13,7 @@ options(
 # TODO: can not set global install opts
 
 # add some common packages
-install.packages(c('fs', 'remotes', 'littler'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
+install.packages(c('fs', 'remotes'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
 
 # add shiny packages
 install.packages(c('markdown', 'rmarkdown', 'shiny'), INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))
