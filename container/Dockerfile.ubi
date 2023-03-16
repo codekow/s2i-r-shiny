@@ -41,7 +41,7 @@ ENV R_HOME=/opt/R/$R_VERSION/lib/R
 ENV R_LIBS_USER=/opt/app-root/R
 ENV _R_SHLIB_STRIP_=true
 
-ENV PATH=$PATH:/opt/R/$R_VERSION/bin
+ENV PATH=$PATH:/opt/R/$R_VERSION/bin:$R_LIBS_USER/littler/bin
 
 RUN mkdir -p /opt/app-root/R && \
     mkdir -p /opt/app-root/src && \
