@@ -82,8 +82,9 @@ oc delete all -l shiny=example
 
 - [R Packages Info](https://cran.rstudio.com/bin/linux/redhat)
 - [s2i for R Shiny - example](https://examples.openshift.pub/build/s2i-r-shiny)
-- https://cran.r-project.org/web/packages/available_packages_by_name.html#available-packages-D
+- https://cran.r-project.org/web/packages/available_packages_by_name.html
 - https://github.com/DFEAGILEDEVOPS/s2i-rshiny
 - https://stackoverflow.com/questions/65110578/run-shiny-applications-on-openshift-online-using-custom-images
 - https://www.r-bloggers.com/2011/11/permanently-setting-the-cran-repository/
 - https://github.com/analythium/covidapp-shiny
+- https://www.r-bloggers.com/2020/01/an-efficient-way-to-install-and-load-r-packages
