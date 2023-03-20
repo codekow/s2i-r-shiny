@@ -70,7 +70,7 @@ scripts/examples.sh
 ## Clean Up
 
 ```
-oc delete all -l shiny=example
+oc delete all -l example=shiny
 ```
 
 ## Links
