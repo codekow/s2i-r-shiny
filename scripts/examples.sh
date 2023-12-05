@@ -1,5 +1,14 @@
 #!/bin/sh
 
+is_sourced(){
+  if [ -n "$ZSH_VERSION" ]; then
+      case $ZSH_EVAL_CONTEXT in *:file:*) return 0;; esac
+  else  # Add additional POSIX-compatible shell names here, if needed.
+      case ${0##*/} in dash|-dash|bash|-bash|ksh|-ksh|sh|-sh) return 0;; esac
+  fi
+  return 1  # NOT sourced.
+}
+
 GIT_REPO=https://github.com/rstudio/shiny-examples
 
 # list of examples from github
@@ -190,7 +199,7 @@ deploy_examples(){
 
     # echo "${NAME}" | egrep -q -v 'async' || continue
 
-    echo "Deploying: ${NAME}"
+    echo "Deploying: ${NAME}..."
 
     oc new-app s2i-r-shiny~"${GIT_REPO}" \
       --context-dir="${CONTEXT_DIR}" \
@@ -214,6 +223,10 @@ delete_examples(){
     -l examples=shiny
 }
 
-build_s2i_image
-deploy_test
-deploy_examples
+setup_examples(){
+  build_s2i_image
+  deploy_test
+  deploy_examples
+}
+
+is_sourced || setup_examples
