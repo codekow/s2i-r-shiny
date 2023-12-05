@@ -1,4 +1,4 @@
-FROM docker.io/rocker/r-ver:4.2.2
+FROM docker.io/rocker/r-ver:4
 
 LABEL io.k8s.description="R Source-to-Image (s2i)" \
     io.k8s.display-name="R s2i" \
