@@ -1,5 +1,7 @@
 #!/bin/sh
 
+SLOW=${SLOW:-true}
+
 is_sourced(){
   if [ -n "$ZSH_VERSION" ]; then
       case $ZSH_EVAL_CONTEXT in *:file:*) return 0;; esac
@@ -163,9 +165,6 @@ LIST_BROKEN_CAIRO="093-plot-interaction-basic
 105-plot-interaction-zoom
 106-plot-interaction-exclude"
 
-# LIST="079-widget-submit"
-LIST=$LIST_WORKING
-
 build_s2i_image(){
   oc new-build \
   https://github.com/codekow/s2i-r-shiny.git \
@@ -193,7 +192,9 @@ deploy_test(){
 }
 
 deploy_examples(){
-  for i in $(echo $LIST) ; do
+  LIST=${1:-$LIST_WORKING}
+  
+  for i in $(echo ${LIST}) ; do
     CONTEXT_DIR=$i;
     NAME=shiny-$(echo $i | cut -d'-' -f1-)
 
@@ -207,8 +208,9 @@ deploy_examples(){
       --labels example=shiny \
       --strategy=source
     
+    [ "${SLOW}" = "true" ] && \
     oc logs bc/"${NAME}" \
-    --follow  
+    --follow
 
     oc expose svc/"${NAME}" \
       --labels example=shiny \
