@@ -220,7 +220,7 @@ deploy_examples(){
 
 delete_examples(){
   oc delete all \
-    -l examples=shiny
+    -l example=shiny
 }
 
 setup_examples(){
